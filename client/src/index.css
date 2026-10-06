@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Onest", ui-sans-serif, system-ui, sans-serif;
+
+  --color-asphalt: #1b2430;
+  --color-asphalt-soft: #46505d;
+  --color-mute: #6b7480;
+  --color-paper: #f1f3f6;
+  --color-line: #dde1e7;
+  --color-surface: #ffffff;
+  --color-taxi: #ffc629;
+  --color-taxi-deep: #e0a800;
+  --color-cash: #1f8a5b;
+  --color-card: #3157d5;
+  --color-fee: #b84a2e;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-asphalt);
+    font-feature-settings: "tnum" 1, "cv11" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    min-height: 100dvh;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-card);
+    outline-offset: 2px;
+  }
+}
+
+.checker {
+  background-color: var(--color-asphalt);
+  background-image: conic-gradient(var(--color-taxi) 25%, transparent 0 50%, var(--color-taxi) 0 75%, transparent 0);
+  background-size: 16px 16px;
+}
+
+dialog::backdrop {
+  background: rgb(27 36 48 / 0.55);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .grow-x {
+    transform-origin: left;
+    animation: grow-x 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
