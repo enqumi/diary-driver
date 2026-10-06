@@ -42,9 +42,9 @@ export function TripList({ trips, tzOffsetMinutes, selectedId, onSelect }: Props
               <li
                 key={t.id}
                 ref={selected ? selectedRef : undefined}
-                className={`relative transition-colors ${selected ? "bg-soft" : "hover:bg-softer"}`}
+                className={`relative transition-colors ${selected ? "bg-taxi/20" : "hover:bg-softer"}`}
               >
-                {selected && <span className="absolute inset-y-0 left-0 w-1 bg-ink" aria-hidden />}
+                {selected && <span className="absolute inset-y-0 left-0 w-1 bg-taxi" aria-hidden />}
                 <button
                   type="button"
                   onClick={() => onSelect(t.id)}

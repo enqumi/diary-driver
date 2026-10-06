@@ -15,6 +15,8 @@
   --color-cash: #000000;
   --color-card: #8a8a8a;
   --color-danger: #c4321f;
+  --color-taxi: #ffc629;
+  --color-taxi-deep: #f0b400;
 
   --text-display-xxl: 3.25rem;
   --text-display-xxl--line-height: 4rem;
@@ -48,8 +50,8 @@
     outline-offset: 2px;
   }
   ::selection {
-    background: var(--color-ink);
-    color: var(--color-canvas);
+    background: var(--color-taxi);
+    color: var(--color-ink);
   }
 }
 
@@ -59,8 +61,8 @@ input::-webkit-datetime-edit-ampm-field:focus,
 input::-webkit-datetime-edit-day-field:focus,
 input::-webkit-datetime-edit-month-field:focus,
 input::-webkit-datetime-edit-year-field:focus {
-  background: var(--color-ink);
-  color: var(--color-canvas);
+  background: var(--color-taxi);
+  color: var(--color-ink);
   border-radius: 4px;
 }
 
@@ -70,6 +72,12 @@ input::-webkit-calendar-picker-indicator {
 }
 input::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
+}
+
+.checker {
+  background-color: var(--color-ink);
+  background-image: conic-gradient(var(--color-taxi) 25%, transparent 0 50%, var(--color-taxi) 0 75%, transparent 0);
+  background-size: 16px 16px;
 }
 
 dialog::backdrop {

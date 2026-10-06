@@ -171,12 +171,18 @@ export function AddTripDialog({ open, date, tzOffsetMinutes, dayStartHour, onClo
 
         <fieldset className="mt-4">
           <legend className="text-sm font-medium">Оплата</legend>
-          <div className="mt-2 grid grid-cols-2 gap-1 rounded-[36px] bg-soft p-1">
+          <div className="relative mt-2 grid grid-cols-2 gap-1 rounded-[36px] bg-soft p-1">
+            <span
+              className={`absolute inset-y-1 left-1 w-[calc(50%-6px)] rounded-[36px] bg-taxi transition-transform duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none ${
+                payment === "cash" ? "translate-x-[calc(100%+4px)]" : ""
+              }`}
+              aria-hidden
+            />
             {(["card", "cash"] as const).map((p) => (
               <label
                 key={p}
-                className={`cursor-pointer rounded-[36px] py-2.5 text-center font-medium transition-colors has-focus-visible:outline-2 has-focus-visible:outline-ink ${
-                  payment === p ? "bg-ink text-white" : "text-body hover:bg-pressed hover:text-ink"
+                className={`relative cursor-pointer rounded-[36px] py-2.5 text-center font-medium transition-colors duration-300 has-focus-visible:outline-2 has-focus-visible:outline-ink ${
+                  payment === p ? "text-ink" : "text-body hover:text-ink"
                 }`}
               >
                 <input type="radio" name="payment" value={p} checked={payment === p} onChange={() => setPayment(p)} className="sr-only" />
@@ -199,7 +205,7 @@ export function AddTripDialog({ open, date, tzOffsetMinutes, dayStartHour, onClo
           <button
             type="submit"
             disabled={saving}
-            className="rounded-full bg-ink px-5 py-3 font-medium text-white transition-colors hover:bg-elevated disabled:opacity-60"
+            className="rounded-full bg-taxi px-5 py-3 font-medium text-ink transition-colors hover:bg-taxi-deep disabled:opacity-60"
           >
             {saving ? "Сохраняем…" : "Сохранить поездку"}
           </button>

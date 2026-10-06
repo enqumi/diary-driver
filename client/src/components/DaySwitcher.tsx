@@ -42,7 +42,7 @@ export function DaySwitcher({ date, today, days, onChange }: Props) {
           >
             <span className="flex items-center gap-2 text-lg font-medium text-body group-hover:text-ink">
               {dayMonth}
-              {date === today && <span className="rounded-full bg-ink px-3 py-0.5 text-sm font-medium text-white">сегодня</span>}
+              {date === today && <span className="rounded-full bg-taxi px-3 py-0.5 text-sm font-medium text-ink">сегодня</span>}
               <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M6 9l6 6 6-6" />
               </svg>
@@ -87,7 +87,7 @@ export function DaySwitcher({ date, today, days, onChange }: Props) {
                     <span className={active ? "text-mute" : "text-body"}>{chipWeekdayFmt.format(at)}</span>
                     {chipFmt.format(at).replace(".", "")}
                     <span
-                      className={`grid h-7 min-w-7 place-items-center rounded-full px-1.5 text-xs ${active ? "bg-elevated text-white" : "bg-canvas text-ink"}`}
+                      className={`grid h-7 min-w-7 place-items-center rounded-full px-1.5 text-xs ${active ? "bg-taxi text-ink" : "bg-canvas text-ink"}`}
                       title={`${d.trips} ${plural(d.trips, "поездка", "поездки", "поездок")}`}
                     >
                       {d.trips}
@@ -111,7 +111,7 @@ function ArrowButton({ label, onClick, dir, disabled }: { label: string; onClick
       disabled={disabled}
       aria-label={label}
       title={`${label} (${dir === "left" ? "←" : "→"})`}
-      className="grid size-12 shrink-0 place-items-center rounded-full bg-soft text-ink transition-colors enabled:hover:bg-ink enabled:hover:text-white disabled:opacity-35"
+      className="grid size-12 shrink-0 place-items-center rounded-full bg-soft text-ink transition-colors enabled:hover:bg-ink enabled:hover:text-taxi disabled:opacity-35"
     >
       <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
         {dir === "left" ? <path d="M15 5l-7 7 7 7" /> : <path d="M9 5l7 7-7 7" />}

@@ -111,13 +111,13 @@ export default function App() {
     <>
       <nav className="sticky top-0 z-20 bg-canvas">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-8">
-          <p className="text-display-sm font-bold">Дневник смен</p>
+          <Logo />
           <button
             type="button"
             onClick={() => setDialogOpen(true)}
             disabled={!date}
             title="Добавить поездку (N)"
-            className="flex items-center gap-2 rounded-full bg-ink py-3 pr-5 pl-4 font-medium text-white transition-colors hover:bg-elevated active:scale-[0.98] disabled:opacity-40"
+            className="flex items-center gap-2 rounded-full bg-taxi py-3 pr-5 pl-4 font-medium text-ink transition-colors hover:bg-taxi-deep active:scale-[0.98] disabled:opacity-40"
           >
             <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
               <path d="M12 5v14M5 12h14" />
@@ -136,7 +136,7 @@ export default function App() {
             {error && (
               <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-soft p-6">
                 <span className="flex items-center gap-3 font-medium">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-ink font-bold text-white" aria-hidden>
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-taxi font-bold text-ink" aria-hidden>
                     !
                   </span>
                   {error}
@@ -183,8 +183,9 @@ export default function App() {
       </div>
 
       <footer className="bg-ink text-white">
+        <div className="checker h-4" aria-hidden />
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-4 py-8 sm:px-8">
-          <p className="text-display-sm font-bold">Дневник смен</p>
+          <Logo />
           <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-mute">
             <li>
               <Kbd>←</Kbd> <Kbd>→</Kbd> соседний день
@@ -210,7 +211,7 @@ export default function App() {
       <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-5 z-30 flex justify-center px-4">
         {toast && (
           <p key={toast.key} className="rise pointer-events-auto flex items-center gap-3 rounded-2xl bg-canvas px-4 py-3 text-sm font-medium shadow-card">
-            <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ink text-white" aria-hidden>
+            <span className="grid size-6 shrink-0 place-items-center rounded-full bg-taxi text-ink" aria-hidden>
               <svg viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12.5l4.5 4.5L19 7.5" />
               </svg>
@@ -223,8 +224,16 @@ export default function App() {
   );
 }
 
+function Logo() {
+  return (
+    <p className="text-display-sm font-bold">
+      Дневник смен
+    </p>
+  );
+}
+
 function Kbd({ children }: { children: string }) {
-  return <kbd className="inline-grid min-w-7 place-items-center rounded-full bg-elevated px-2 py-0.5 font-sans font-medium text-white">{children}</kbd>;
+  return <kbd className="inline-grid min-w-7 place-items-center rounded-full bg-elevated px-2 py-0.5 font-sans font-medium text-taxi">{children}</kbd>;
 }
 
 function EmptyDay({ onAdd, prev, next, onGo }: { onAdd: () => void; prev?: string; next?: string; onGo: (d: string) => void }) {
@@ -237,7 +246,7 @@ function EmptyDay({ onAdd, prev, next, onGo }: { onAdd: () => void; prev?: strin
       <h2 className="text-display-md font-bold">В этот день вы не выходили на линию</h2>
       <p className="mt-2 max-w-prose text-body">Если поездки были, добавьте их, и сводка пересчитается.</p>
       <div className="mt-6 flex flex-wrap gap-3">
-        <button type="button" onClick={onAdd} className="rounded-full bg-ink px-5 py-3 font-medium text-white hover:bg-elevated">
+        <button type="button" onClick={onAdd} className="rounded-full bg-taxi px-5 py-3 font-medium text-ink hover:bg-taxi-deep">
           Добавить поездку
         </button>
         {prev && (

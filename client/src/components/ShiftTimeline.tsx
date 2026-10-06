@@ -85,7 +85,7 @@ export function ShiftTimeline({ date, trips, tzOffsetMinutes, selectedId, onSele
                   title={label}
                   className={`rise absolute min-w-1.5 rounded-md transition-[filter,box-shadow] hover:brightness-125 ${
                     trip.payment === "cash" ? "bg-cash" : "bg-card"
-                  } ${selected ? "z-10 shadow-[0_0_0_2px_var(--color-soft),0_0_0_4px_var(--color-ink)]" : ""}`}
+                  } ${selected ? "z-10 shadow-[0_0_0_2px_var(--color-soft),0_0_0_5px_var(--color-taxi)]" : ""}`}
                   style={{
                     left: `${pct(from)}%`,
                     width: `${pct(to) - pct(from)}%`,

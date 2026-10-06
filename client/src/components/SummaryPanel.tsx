@@ -11,11 +11,12 @@ export function SummaryPanel({ summary: s, tzOffsetMinutes }: Props) {
 
   return (
     <section aria-label="Сводка за день" className="grid gap-4 sm:gap-6 md:grid-cols-[1.25fr_1fr]">
-      <div className="flex flex-col justify-between gap-10 rounded-2xl bg-ink p-6 text-white sm:p-8">
+      <div className="relative flex flex-col justify-between gap-10 overflow-hidden rounded-2xl bg-taxi p-6 text-ink sm:p-8">
+        <span className="checker absolute top-0 right-0 h-8 w-32 [mask-image:linear-gradient(to_left,black,transparent)]" aria-hidden />
         <p className="text-lg font-medium">На руки</p>
         <div>
           <p className="text-[2.5rem] leading-none font-bold sm:text-display-xxl">{money(s.net)}</p>
-          <p className="mt-3 text-mute">
+          <p className="mt-3 text-ink/70">
             {s.trips === 0
               ? "Поездок в этот день нет"
               : `${s.trips} ${plural(s.trips, "поездка", "поездки", "поездок")}, ${duration(s.busyMinutes)} с пассажирами`}
