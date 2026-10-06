@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { dayTitle, shiftDate } from "../format";
+import { dayTitle, plural, shiftDate } from "../format";
 
 interface Props {
   date: string;
@@ -31,24 +31,23 @@ export function DaySwitcher({ date, today, days, onChange }: Props) {
   };
 
   return (
-    <div>
-      <div className="flex items-center gap-2 sm:gap-3">
-        <ArrowButton label="Предыдущий день" onClick={() => onChange(shiftDate(date, -1))} dir="left" />
-
+    <section className="pb-2">
+      <div className="flex items-end justify-between gap-4">
         <div className="relative min-w-0 flex-1">
           <button
             type="button"
             onClick={openPicker}
-            className="group block w-full rounded-lg px-1 text-left"
+            className="group block max-w-full rounded-2xl text-left"
             aria-label={`${weekday}, ${dayMonth}. Выбрать другую дату`}
           >
-            <span className="block text-[2rem] leading-[1.05] font-extrabold tracking-[-0.03em] sm:text-[2.75rem]">
-              {weekday}
-            </span>
-            <span className="block text-lg text-asphalt-soft group-hover:text-asphalt">
+            <span className="flex items-center gap-2 text-lg font-medium text-body group-hover:text-ink">
               {dayMonth}
-              {date === today && <span className="ml-2 rounded-full bg-asphalt px-2 py-0.5 text-sm text-taxi">сегодня</span>}
+              {date === today && <span className="rounded-full bg-ink px-3 py-0.5 text-sm font-medium text-white">сегодня</span>}
+              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M6 9l6 6 6-6" />
+              </svg>
             </span>
+            <span className="mt-1 block truncate text-display-lg font-bold sm:text-display-xxl">{weekday}</span>
           </button>
           <input
             ref={pickerRef}
@@ -62,12 +61,15 @@ export function DaySwitcher({ date, today, days, onChange }: Props) {
           />
         </div>
 
-        <ArrowButton label="Следующий день" onClick={() => onChange(shiftDate(date, 1))} dir="right" disabled={date >= today} />
+        <div className="flex shrink-0 gap-2 pb-1 sm:pb-2">
+          <ArrowButton label="Предыдущий день" onClick={() => onChange(shiftDate(date, -1))} dir="left" />
+          <ArrowButton label="Следующий день" onClick={() => onChange(shiftDate(date, 1))} dir="right" disabled={date >= today} />
+        </div>
       </div>
 
       {days.length > 0 && (
-        <nav aria-label="Дни со сменами" className="-mx-4 mt-5 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
-          <ul className="flex gap-1.5">
+        <nav aria-label="Дни со сменами" className="-mx-4 mt-6 overflow-x-auto px-4 py-1 [scrollbar-width:none] sm:-mx-8 sm:px-8">
+          <ul className="flex gap-2">
             {days.map((d) => {
               const active = d.date === date;
               const at = new Date(`${d.date}T00:00:00Z`);
@@ -78,15 +80,18 @@ export function DaySwitcher({ date, today, days, onChange }: Props) {
                     type="button"
                     onClick={() => onChange(d.date)}
                     aria-current={active ? "date" : undefined}
-                    className={`flex min-w-[4.5rem] flex-col items-start rounded-lg border px-3 py-1.5 text-left transition-colors ${
-                      active
-                        ? "border-asphalt bg-asphalt text-white"
-                        : "border-line bg-surface text-asphalt hover:border-asphalt-soft"
+                    className={`flex h-11 items-center gap-2 rounded-full pr-2 pl-4 text-sm font-medium whitespace-nowrap transition-colors ${
+                      active ? "bg-ink text-white" : "bg-soft text-ink hover:bg-pressed"
                     }`}
                   >
-                    <span className={`text-xs ${active ? "text-taxi" : "text-mute"}`}>{chipWeekdayFmt.format(at)}</span>
-                    <span className="text-sm font-semibold whitespace-nowrap">{chipFmt.format(at).replace(".", "")}</span>
-                    <span className={`text-xs whitespace-nowrap ${active ? "text-white/70" : "text-mute"}`}>{d.trips} поезд.</span>
+                    <span className={active ? "text-mute" : "text-body"}>{chipWeekdayFmt.format(at)}</span>
+                    {chipFmt.format(at).replace(".", "")}
+                    <span
+                      className={`grid h-7 min-w-7 place-items-center rounded-full px-1.5 text-xs ${active ? "bg-elevated text-white" : "bg-canvas text-ink"}`}
+                      title={`${d.trips} ${plural(d.trips, "поездка", "поездки", "поездок")}`}
+                    >
+                      {d.trips}
+                    </span>
                   </button>
                 </li>
               );
@@ -94,7 +99,7 @@ export function DaySwitcher({ date, today, days, onChange }: Props) {
           </ul>
         </nav>
       )}
-    </div>
+    </section>
   );
 }
 
@@ -106,7 +111,7 @@ function ArrowButton({ label, onClick, dir, disabled }: { label: string; onClick
       disabled={disabled}
       aria-label={label}
       title={`${label} (${dir === "left" ? "←" : "→"})`}
-      className="grid size-11 shrink-0 place-items-center rounded-full border border-line bg-surface text-asphalt transition-colors enabled:hover:border-asphalt enabled:hover:bg-asphalt enabled:hover:text-taxi disabled:opacity-35"
+      className="grid size-12 shrink-0 place-items-center rounded-full bg-soft text-ink transition-colors enabled:hover:bg-ink enabled:hover:text-white disabled:opacity-35"
     >
       <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
         {dir === "left" ? <path d="M15 5l-7 7 7 7" /> : <path d="M9 5l7 7-7 7" />}

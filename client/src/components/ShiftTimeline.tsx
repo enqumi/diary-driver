@@ -43,18 +43,18 @@ export function ShiftTimeline({ date, trips, tzOffsetMinutes, selectedId, onSele
   const labelEvery = hours.length > 13 ? 3 : hours.length > 9 ? 2 : 1;
 
   return (
-    <section aria-labelledby="timeline-title" className="rounded-2xl bg-asphalt p-5 text-white sm:p-7">
+    <section aria-labelledby="timeline-title" className="rounded-2xl bg-soft p-6 sm:p-8">
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-        <h2 id="timeline-title" className="text-lg font-semibold">
+        <h2 id="timeline-title" className="text-display-sm font-bold">
           Лента смены
         </h2>
-        <p className="flex gap-4 text-sm text-white/65">
+        <p className="flex gap-4 text-sm text-body">
           <span className="flex items-center gap-1.5">
-            <span className="size-2.5 rounded-sm bg-[#4fd39a]" aria-hidden />
+            <span className="size-2.5 rounded-full bg-cash" aria-hidden />
             наличные
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="size-2.5 rounded-sm bg-[#8aa4ff]" aria-hidden />
+            <span className="size-2.5 rounded-full bg-card" aria-hidden />
             карта
           </span>
         </p>
@@ -62,14 +62,14 @@ export function ShiftTimeline({ date, trips, tzOffsetMinutes, selectedId, onSele
 
       <div className="relative mt-6" style={{ height: `${Math.max(80, 24 + lanes * 30)}px` }}>
         {hours.map((h, i) => (
-          <div key={h} className="absolute inset-y-0 border-l border-white/10" style={{ left: `${pct(h * 60)}%` }} aria-hidden>
+          <div key={h} className="absolute inset-y-0 border-l border-pressed" style={{ left: `${pct(h * 60)}%` }} aria-hidden>
             {i % labelEvery === 0 && (
-              <span className="absolute top-full mt-2 -translate-x-1/2 text-xs text-white/55">{String(h % 24).padStart(2, "0")}</span>
+              <span className="absolute top-full mt-2 -translate-x-1/2 text-xs text-body">{String(h % 24).padStart(2, "0")}</span>
             )}
           </div>
         ))}
 
-        <div className="absolute inset-x-0 top-1/2 h-px bg-white/20" aria-hidden />
+        <div className="absolute inset-x-0 top-1/2 h-px bg-pressed" aria-hidden />
 
         <ol className="absolute inset-x-0 top-3 bottom-3">
           {spans.map(({ trip, from, to, lane }, i) => {
@@ -83,9 +83,9 @@ export function ShiftTimeline({ date, trips, tzOffsetMinutes, selectedId, onSele
                   aria-label={label}
                   aria-pressed={selected}
                   title={label}
-                  className={`rise absolute min-w-1.5 rounded-[3px] transition-[filter,box-shadow] hover:brightness-115 ${
-                    trip.payment === "cash" ? "bg-[#4fd39a]" : "bg-[#8aa4ff]"
-                  } ${selected ? "z-10 shadow-[0_0_0_2px_var(--color-taxi)]" : ""}`}
+                  className={`rise absolute min-w-1.5 rounded-md transition-[filter,box-shadow] hover:brightness-125 ${
+                    trip.payment === "cash" ? "bg-cash" : "bg-card"
+                  } ${selected ? "z-10 shadow-[0_0_0_2px_var(--color-soft),0_0_0_4px_var(--color-ink)]" : ""}`}
                   style={{
                     left: `${pct(from)}%`,
                     width: `${pct(to) - pct(from)}%`,

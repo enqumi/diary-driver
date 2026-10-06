@@ -1,45 +1,54 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Onest", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, "Helvetica Neue", Arial, sans-serif;
 
-  --color-asphalt: #1b2430;
-  --color-asphalt-soft: #46505d;
-  --color-mute: #6b7480;
-  --color-paper: #f1f3f6;
-  --color-line: #dde1e7;
-  --color-surface: #ffffff;
-  --color-taxi: #ffc629;
-  --color-taxi-deep: #e0a800;
-  --color-cash: #1f8a5b;
-  --color-card: #3157d5;
-  --color-fee: #b84a2e;
+  --color-ink: #000000;
+  --color-body: #5e5e5e;
+  --color-hairline-mid: #4b4b4b;
+  --color-mute: #afafaf;
+  --color-canvas: #ffffff;
+  --color-soft: #efefef;
+  --color-softer: #f3f3f3;
+  --color-pressed: #e2e2e2;
+  --color-elevated: #282828;
+  --color-cash: #000000;
+  --color-card: #8a8a8a;
+  --color-danger: #c4321f;
+
+  --text-display-xxl: 3.25rem;
+  --text-display-xxl--line-height: 4rem;
+  --text-display-xl: 2.25rem;
+  --text-display-xl--line-height: 2.75rem;
+  --text-display-lg: 2rem;
+  --text-display-lg--line-height: 2.5rem;
+  --text-display-md: 1.5rem;
+  --text-display-md--line-height: 2rem;
+  --text-display-sm: 1.25rem;
+  --text-display-sm--line-height: 1.75rem;
+
+  --shadow-float: 0 2px 8px 0 rgb(0 0 0 / 0.16);
+  --shadow-card: 0 4px 16px 0 rgb(0 0 0 / 0.16);
 }
 
 @layer base {
   html {
-    background: var(--color-paper);
-    color: var(--color-asphalt);
-    font-feature-settings: "tnum" 1, "cv11" 1;
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-feature-settings: "tnum" 1, "ss01" 1;
     -webkit-font-smoothing: antialiased;
   }
   body {
     min-height: 100dvh;
   }
   :focus-visible {
-    outline: 3px solid var(--color-card);
+    outline: 2px solid var(--color-ink);
     outline-offset: 2px;
   }
 }
 
-.checker {
-  background-color: var(--color-asphalt);
-  background-image: conic-gradient(var(--color-taxi) 25%, transparent 0 50%, var(--color-taxi) 0 75%, transparent 0);
-  background-size: 16px 16px;
-}
-
 dialog::backdrop {
-  background: rgb(27 36 48 / 0.55);
+  background: rgb(0 0 0 / 0.5);
 }
 
 @media (prefers-reduced-motion: no-preference) {

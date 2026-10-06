@@ -126,18 +126,17 @@ export function AddTripDialog({ open, date, tzOffsetMinutes, dayStartHour, onClo
       ref={dialogRef}
       onClose={onClose}
       aria-labelledby="add-trip-title"
-      className="m-auto w-[min(100%-2rem,30rem)] rounded-2xl bg-surface p-0 text-asphalt shadow-[0_24px_60px_-12px_rgb(27_36_48/0.45)]"
+      className="m-auto w-[min(100%-2rem,30rem)] rounded-2xl bg-canvas p-0 text-ink shadow-card"
     >
-      <div className="checker h-2" aria-hidden />
       <form onSubmit={submit} noValidate className="p-6">
-        <h2 id="add-trip-title" className="text-xl font-extrabold tracking-tight">
+        <h2 id="add-trip-title" className="text-display-md font-bold">
           Новая поездка
         </h2>
-        <p className="mt-1 text-sm text-mute">
+        <p className="mt-2 text-sm text-body">
           Смена {weekday.toLowerCase()}, {dayMonth}, время по {offsetLabel(tzOffsetMinutes)}. Поездки до {dayStart} следующего утра тоже относятся к этой смене.
         </p>
 
-        <div className="mt-5 grid grid-cols-2 gap-3">
+        <div className="mt-6 grid grid-cols-2 gap-3">
           <Field label="Начало" error={errors.start} htmlFor="f-start" hint={otherDayHint(startDay)}>
             <input id="f-start" type="time" required value={start} onChange={(e) => setStart(e.target.value)} className={inputCls(errors.start)} autoFocus />
           </Field>
@@ -172,12 +171,12 @@ export function AddTripDialog({ open, date, tzOffsetMinutes, dayStartHour, onClo
 
         <fieldset className="mt-4">
           <legend className="text-sm font-medium">Оплата</legend>
-          <div className="mt-1.5 grid grid-cols-2 gap-1 rounded-xl bg-paper p-1">
+          <div className="mt-2 grid grid-cols-2 gap-1 rounded-[36px] bg-soft p-1">
             {(["card", "cash"] as const).map((p) => (
               <label
                 key={p}
-                className={`cursor-pointer rounded-lg py-2 text-center font-medium transition-colors has-focus-visible:outline-3 has-focus-visible:outline-card ${
-                  payment === p ? (p === "cash" ? "bg-cash text-white" : "bg-card text-white") : "text-asphalt-soft hover:text-asphalt"
+                className={`cursor-pointer rounded-[36px] py-2.5 text-center font-medium transition-colors has-focus-visible:outline-2 has-focus-visible:outline-ink ${
+                  payment === p ? "bg-ink text-white" : "text-body hover:bg-pressed hover:text-ink"
                 }`}
               >
                 <input type="radio" name="payment" value={p} checked={payment === p} onChange={() => setPayment(p)} className="sr-only" />
@@ -188,19 +187,19 @@ export function AddTripDialog({ open, date, tzOffsetMinutes, dayStartHour, onClo
         </fieldset>
 
         {errors.form && (
-          <p role="alert" className="mt-4 rounded-lg bg-fee/10 px-3 py-2 text-sm text-fee">
+          <p role="alert" className="mt-4 rounded-lg bg-soft px-4 py-3 text-sm font-medium text-danger">
             {errors.form}
           </p>
         )}
 
-        <div className="mt-6 flex justify-end gap-2">
-          <button type="button" onClick={onClose} className="rounded-xl px-4 py-2.5 font-medium text-asphalt-soft hover:bg-paper">
+        <div className="mt-8 flex justify-end gap-3">
+          <button type="button" onClick={onClose} className="rounded-full bg-soft px-5 py-3 font-medium hover:bg-pressed">
             Отмена
           </button>
           <button
             type="submit"
             disabled={saving}
-            className="rounded-xl bg-asphalt px-5 py-2.5 font-semibold text-taxi transition-opacity disabled:opacity-60"
+            className="rounded-full bg-ink px-5 py-3 font-medium text-white transition-colors hover:bg-elevated disabled:opacity-60"
           >
             {saving ? "Сохраняем…" : "Сохранить поездку"}
           </button>
@@ -211,8 +210,8 @@ export function AddTripDialog({ open, date, tzOffsetMinutes, dayStartHour, onClo
 }
 
 function inputCls(error?: string) {
-  return `mt-1.5 w-full rounded-xl border bg-surface px-3 py-2.5 text-lg font-semibold outline-none transition-colors focus-visible:outline-0 focus:border-asphalt ${
-    error ? "border-fee" : "border-line"
+  return `mt-2 w-full rounded-lg bg-soft px-4 py-3 text-lg font-medium outline-none transition-shadow focus-visible:outline-0 focus:bg-canvas focus:shadow-[inset_0_0_0_2px_var(--color-ink)] ${
+    error ? "shadow-[inset_0_0_0_2px_var(--color-danger)]" : ""
   }`;
 }
 
@@ -236,9 +235,9 @@ function Field({
       </label>
       {children}
       {error ? (
-        <p className="mt-1 text-sm text-fee">{error}</p>
+        <p className="mt-1.5 text-sm text-danger">{error}</p>
       ) : (
-        hint && <p className="mt-1 text-sm text-mute">{hint}</p>
+        hint && <p className="mt-1.5 text-sm text-body">{hint}</p>
       )}
     </div>
   );

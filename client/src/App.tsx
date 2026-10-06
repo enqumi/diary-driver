@@ -109,32 +109,39 @@ export default function App() {
 
   return (
     <>
-      <div className="checker h-3" aria-hidden />
-      <div className="mx-auto max-w-5xl px-4 pt-6 pb-24 sm:px-6 sm:pt-8">
-        <header className="flex items-center justify-between gap-4">
-          <p className="font-semibold text-asphalt-soft">Дневник смен</p>
+      <nav className="sticky top-0 z-20 bg-canvas">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-8">
+          <p className="text-display-sm font-bold">Дневник смен</p>
           <button
             type="button"
             onClick={() => setDialogOpen(true)}
             disabled={!date}
             title="Добавить поездку (N)"
-            className="flex items-center gap-2 rounded-xl bg-asphalt px-4 py-2.5 font-semibold text-taxi transition-transform active:scale-[0.97] disabled:opacity-50"
+            className="flex items-center gap-2 rounded-full bg-ink py-3 pr-5 pl-4 font-medium text-white transition-colors hover:bg-elevated active:scale-[0.98] disabled:opacity-40"
           >
             <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
               <path d="M12 5v14M5 12h14" />
             </svg>
-            Добавить поездку
+            <span className="sm:hidden">Поездка</span>
+            <span className="hidden sm:inline">Добавить поездку</span>
           </button>
-        </header>
+        </div>
+      </nav>
 
+      <div className="mx-auto max-w-6xl px-4 pt-6 pb-16 sm:px-8 sm:pt-10">
         {date && (
-          <main className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6">
+          <main className="grid grid-cols-[minmax(0,1fr)] gap-4 sm:gap-6">
             <DaySwitcher date={date} today={today} days={days?.days ?? []} onChange={setDate} />
 
             {error && (
-              <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-fee/30 bg-fee/5 px-5 py-4 text-fee">
-                <span>{error}</span>
-                <button type="button" onClick={() => { void loadDays(); void loadDay(date); }} className="rounded-lg border border-fee/40 px-3 py-1.5 text-sm font-semibold hover:bg-fee/10">
+              <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-soft p-6">
+                <span className="flex items-center gap-3 font-medium">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-ink font-bold text-white" aria-hidden>
+                    !
+                  </span>
+                  {error}
+                </span>
+                <button type="button" onClick={() => { void loadDays(); void loadDay(date); }} className="rounded-full bg-ink px-4 py-3 font-medium text-white hover:bg-elevated">
                   Повторить
                 </button>
               </div>
@@ -175,6 +182,20 @@ export default function App() {
         )}
       </div>
 
+      <footer className="bg-ink text-white">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-4 py-8 sm:px-8">
+          <p className="text-display-sm font-bold">Дневник смен</p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-mute">
+            <li>
+              <Kbd>←</Kbd> <Kbd>→</Kbd> соседний день
+            </li>
+            <li>
+              <Kbd>N</Kbd> новая поездка
+            </li>
+          </ul>
+        </div>
+      </footer>
+
       {date && (
         <AddTripDialog
           open={dialogOpen}
@@ -186,10 +207,14 @@ export default function App() {
         />
       )}
 
-      <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-5 flex justify-center px-4">
+      <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-5 z-30 flex justify-center px-4">
         {toast && (
-          <p key={toast.key} className="rise pointer-events-auto rounded-xl bg-asphalt px-4 py-3 text-white shadow-lg">
-            <span className="mr-2 inline-block size-2.5 rounded-sm bg-taxi align-middle" aria-hidden />
+          <p key={toast.key} className="rise pointer-events-auto flex items-center gap-3 rounded-2xl bg-canvas px-4 py-3 text-sm font-medium shadow-card">
+            <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ink text-white" aria-hidden>
+              <svg viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12.5l4.5 4.5L19 7.5" />
+              </svg>
+            </span>
             {toast.text}
           </p>
         )}
@@ -198,26 +223,30 @@ export default function App() {
   );
 }
 
+function Kbd({ children }: { children: string }) {
+  return <kbd className="inline-grid min-w-7 place-items-center rounded-full bg-elevated px-2 py-0.5 font-sans font-medium text-white">{children}</kbd>;
+}
+
 function EmptyDay({ onAdd, prev, next, onGo }: { onAdd: () => void; prev?: string; next?: string; onGo: (d: string) => void }) {
   const label = (d: string) => {
     const { weekday, dayMonth } = dayTitle(d);
     return `${weekday.toLowerCase()}, ${dayMonth}`;
   };
   return (
-    <section className="rounded-2xl border border-dashed border-asphalt-soft/40 px-6 py-10">
-      <h2 className="text-xl font-semibold">В этот день вы не выходили на линию</h2>
-      <p className="mt-2 max-w-prose text-asphalt-soft">Если поездки были, добавьте их, и сводка пересчитается.</p>
-      <div className="mt-5 flex flex-wrap gap-2">
-        <button type="button" onClick={onAdd} className="rounded-xl bg-asphalt px-4 py-2.5 font-semibold text-taxi">
+    <section className="rounded-2xl bg-soft px-6 py-10 sm:px-8 sm:py-12">
+      <h2 className="text-display-md font-bold">В этот день вы не выходили на линию</h2>
+      <p className="mt-2 max-w-prose text-body">Если поездки были, добавьте их, и сводка пересчитается.</p>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <button type="button" onClick={onAdd} className="rounded-full bg-ink px-5 py-3 font-medium text-white hover:bg-elevated">
           Добавить поездку
         </button>
         {prev && (
-          <button type="button" onClick={() => onGo(prev)} className="rounded-xl border border-line bg-surface px-4 py-2.5 font-medium hover:border-asphalt">
+          <button type="button" onClick={() => onGo(prev)} className="rounded-full bg-canvas px-5 py-3 font-medium hover:bg-pressed">
             Прошлая смена: {label(prev)}
           </button>
         )}
         {next && (
-          <button type="button" onClick={() => onGo(next)} className="rounded-xl border border-line bg-surface px-4 py-2.5 font-medium hover:border-asphalt">
+          <button type="button" onClick={() => onGo(next)} className="rounded-full bg-canvas px-5 py-3 font-medium hover:bg-pressed">
             Следующая смена: {label(next)}
           </button>
         )}
@@ -228,9 +257,9 @@ function EmptyDay({ onAdd, prev, next, onGo }: { onAdd: () => void; prev?: strin
 
 function Skeleton() {
   return (
-    <div className="grid gap-6" aria-busy aria-label="Загрузка">
-      <div className="h-52 animate-pulse rounded-2xl bg-line/70" />
-      <div className="h-36 animate-pulse rounded-2xl bg-line/50" />
+    <div className="grid gap-4 sm:gap-6" aria-busy aria-label="Загрузка">
+      <div className="h-56 animate-pulse rounded-2xl bg-soft" />
+      <div className="h-40 animate-pulse rounded-2xl bg-softer" />
     </div>
   );
 }
